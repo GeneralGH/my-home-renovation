@@ -10,6 +10,7 @@ export default [
     meta: {
       title: '仪表盘',
       icon: DashboardIcon,
+      /* hidden: true */
     },
     children: [
       {
