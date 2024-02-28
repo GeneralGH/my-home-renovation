@@ -1,7 +1,7 @@
 <!--  -->
 <template>
   <t-card :bordered="false">
-    <BaseList />
+    <BaseList ref="BaseList" :data="data" @addSubmit="addSubmit" @updateSubmit="updateSubmit" @delSubmit="delSubmit" />
   </t-card>
 </template>
 
@@ -9,13 +9,14 @@
 //这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 //例如：import 《组件名称》 from '《组件路径》';
 import BaseList from '@/components/baseList/index.vue'
+import readyApi from '@/api/ready'
 export default {
   //import引入的组件需要注入到对象中才能使用
   components: { BaseList },
   data() {
     //这里存放数据
     return {
-
+      data: []
     };
   },
   //监听属性 类似于data概念
@@ -24,11 +25,45 @@ export default {
   watch: {},
   //方法集合
   methods: {
+    initList() {
+      this.data = []
+      this.$request.get(readyApi.getListUrl)
+      .then(res => {
+        this.data = res.data.data.map((item => { return { ...item, delShow: false } }))
+      })
+    },
 
+    addSubmit(e) {
+      let obj = JSON.parse(e)
+      this.$request.post(readyApi.addUrl, obj)
+      .then(res => {
+        this.$refs.BaseList.templateShow = false
+        this.$message.success('保存成功')
+        this.initList()
+      })
+    },
+
+    updateSubmit(e) {
+      let obj = JSON.parse(e)
+      this.$request.put(readyApi.updateUrl, obj)
+      .then(res => {
+        this.$refs.BaseList.templateShow = false
+        this.$message.success('保存成功')
+        this.initList()
+      })
+    },
+
+    delSubmit(id) {
+      this.$request.delete(readyApi.delUrl + id)
+      .then(res => {
+        this.$message.success('删除成功')
+        this.initList()
+      })
+    }
   },
   //生命周期 - 创建完成（可以访问当前this实例）
   created() {
-
+    this.initList()
   },
   //生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {
