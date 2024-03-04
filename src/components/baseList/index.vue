@@ -185,6 +185,7 @@ export default {
         },
 
         'data' (val) {
+            this.totalMoneny = 0
             val.forEach((item) => {
                 this.totalMoneny += item.total
             })

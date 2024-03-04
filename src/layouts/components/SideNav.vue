@@ -10,7 +10,8 @@
     >
       <template #logo>
         <span v-if="showLogo" :class="`${prefix}-side-nav-logo-wrapper`" @click="() => handleNav('/dashboard/base')">
-          <component :is="getLogo" :class="`${prefix}-side-nav-logo-${collapsed ? 't' : 'tdesign'}-logo`" />
+          <!-- <component :is="getLogo" :class="`${prefix}-side-nav-logo-${collapsed ? 't' : 'tdesign'}-logo`" /> -->
+          <div style="font-size: 28px; font-weight: bold;">我家装修</div>
         </span>
       </template>
       <menu-content :navData="menu" />
