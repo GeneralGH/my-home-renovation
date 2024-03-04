@@ -6,8 +6,11 @@
                 <t-col :span="1">
                     <t-button theme="primary" @click="add">新建</t-button>
                 </t-col>
-                <t-col :span="1">
+                <!-- <t-col :span="1">
                     <t-button theme="warning">备注</t-button>
+                </t-col> -->
+                <t-col :span="1" :offset="9">
+                    <t-statistic title="总计" :value="totalMoneny" prefix="￥" :animationStart="true" :decimalPlaces="3" trend="increase" />
                 </t-col>
             </t-row>
 
@@ -149,6 +152,7 @@ export default {
                     }
                 }
             },
+            totalMoneny: 0
         };
     },
     props: {
@@ -178,6 +182,12 @@ export default {
                     this.formData[key] = '';
                 }
             }
+        },
+
+        'data' (val) {
+            val.forEach((item) => {
+                this.totalMoneny += item.total
+            })
         }
     },
     //方法集合
